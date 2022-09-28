@@ -1,7 +1,10 @@
 import { Meteor } from 'meteor/meteor';
-import { LinksCollection } from '/imports/api/links';
-import { TasksCollection } from '/imports/api/TasksCollection';
-
+import { Accounts } from 'meteor/accounts-base';
+import { TasksCollection } from '/imports/db/TasksCollection';
+import { ServiceConfiguration } from 'meteor/service-configuration';
+import { LinksCollection } from '../imports/api/links';
+import '/imports/api/tasksMethods';
+import '/imports/api/tasksPublications';
 
 const SEED_USERNAME = 'meteorite';
 const SEED_PASSWORD = 'password';
@@ -65,3 +68,14 @@ Meteor.startup(() => {
     });
   }
 });
+
+ServiceConfiguration.configurations.upsert(
+  { service: 'github' },
+  {
+    $set: {
+      loginStyle: 'popup',
+      clientId: 'ee175c173000da8555e0', // insert your clientId here
+      secret: '23bd6000c856dda2e76c257bf3bcbe01a6a23d0b', // insert your secret here
+    },
+  }
+);
